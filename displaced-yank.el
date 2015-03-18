@@ -24,16 +24,40 @@
 
 ;; Bind the generated functions to a key and you're good to go
 
+;;; Usage:
+
+;; here is how I define many displaced-yank commands at once:
+
+;; (mapc (lambda (function)
+;; 	(let ((funcname (car function))
+;; 	      (data     (cdr function)))
+;; 	  (eval `(define-displaced-yank ,funcname ,data))))
+;;       '((parens              "()")
+;; 	(braces              "{}")
+;; 	(brackets            "[]")
+;; 	(brackets-with-colon "[:]")
+;; 	(pipes               "||")
+;; 	(chevrons            "<>")
+;; 	(quotes              "\"\"")
+;; 	(single-quotes       "''")
+;; 	(stars               "**")
+;; 	(dollars             "$$")
+;; 	(equals              "==")
+;; 	;; a good example of code reuse
+;; 	(ticks               "`'")
+;; 	(little-arrow        "->" 0)
+;; 	(doxygen-comment     "/*!  */" 3)))
+
 ;;; Code:
 
 ;;;###autoload
-(defmacro esc/define-displaced-yank (funcname data)
+(defmacro define-displaced-yank (funcname data)
   "Create a defun of name FUNCNAME that yanks and moves according
   to DATA. DATA is of the form (STR, MOVE). STR is the string to
   yank and MOVE is the number of chars to move backward.
 
   Note that negative values of MOVE are valid."
-  (let ((funsymbol (intern (format "esc/yank-displaced-%s" funcname)))
+  (let ((funsymbol (intern (format "yank-displaced-%s" funcname)))
         (docstring (format "(insert \"%s\") and (backward-char %d). This command can be prefixed, and will iterate N times." (car data) (or (cadr data) 1)))
         (char (car data))
         (back (or (cadr data) 1)))
@@ -43,26 +67,6 @@
        (dotimes (i (or N 1))
          (insert ,char)
          (backward-char ,back)))))
-
-(mapc (lambda (function)
-          (let ((funcname (car function))
-                (data     (cdr function)))
-            (eval `(esc/define-displaced-yank ,funcname ,data))))
-        '((parens              "()")
-          (braces              "{}")
-          (brackets            "[]")
-          (brackets-with-colon "[:]")
-          (pipes               "||")
-          (chevrons            "<>")
-          (quotes              "\"\"")
-          (single-quotes       "''")
-          (stars               "**")
-          (dollars             "$$")
-          (equals              "==")
-          ;; a good example of code reuse
-          (ticks               "`'")
-          (little-arrow        "->" 0)
-          (doxygen-comment     "/*!  */" 3)))
 
 (provide 'displaced-yank)
 
