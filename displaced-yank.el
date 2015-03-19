@@ -58,7 +58,9 @@ yank and MOVE is the number of chars to move backward.
 
 Note that negative values of MOVE are valid."
   (let ((funsymbol (intern (format "yank-displaced-%s" funcname)))
-        (docstring (format "(insert \"%s\") and (backward-char %d). This command can be prefixed, and will iterate N times." (car data) (or (cadr data) 1)))
+        (docstring (format "(insert \"%s\") and (backward-char %d).
+This command can be prefixed, and will iterate N times."
+			   (car data) (or (cadr data) 1)))
         (char (car data))
         (back (or (cadr data) 1)))
     `(defun ,funsymbol (&optional N)
