@@ -26,7 +26,7 @@
 
 ;;; Usage:
 
-;; here is how I define many displaced-yank commands at once:
+;; here is how I define many displaced-yank commands at once
 
 ;; (mapc (lambda (function)
 ;; 	(let ((funcname (car function))
@@ -47,6 +47,23 @@
 ;; 	(ticks               "`'")
 ;; 	(little-arrow        "->" 0)
 ;; 	(doxygen-comment     "/*!  */" 3)))
+
+
+;; I then bind the generated defuns like so
+
+;; (bind-key "C-M--"  'yank-displaced-little-arrow)
+;; (bind-key "C-M-j"  'yank-displaced-parens)
+;; (bind-key "C-M-k"  'yank-displaced-braces)
+;; (bind-key "C-M-|"  'yank-displaced-pipes)
+;; (bind-key "C-M-l"  'yank-displaced-brackets)
+;; (bind-key "C-M-,"  'yank-displaced-chevrons)
+;; (bind-key "C-M-'"  'yank-displaced-single-quotes)
+;; (bind-key "C-M-\"" 'yank-displaced-quotes)
+;; (bind-key "C-M-g"  'yank-displaced-dollars)
+;; (bind-key "C-M-;"  'yank-displaced-stars)
+;; (bind-key "C-M-:"  'yank-displaced-doxygen-comment)
+;; (bind-key "C-M-="  'yank-displaced-equals)
+;; (bind-key "C-M-`"  'yank-displaced-ticks))
 
 ;;; Code:
 
