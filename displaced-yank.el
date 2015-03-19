@@ -53,10 +53,10 @@
 ;;;###autoload
 (defmacro define-displaced-yank (funcname data)
   "Create a defun of name FUNCNAME that yanks and moves according
-  to DATA. DATA is of the form (STR, MOVE). STR is the string to
-  yank and MOVE is the number of chars to move backward.
+to DATA. DATA is of the form (STR, MOVE). STR is the string to
+yank and MOVE is the number of chars to move backward.
 
-  Note that negative values of MOVE are valid."
+Note that negative values of MOVE are valid."
   (let ((funsymbol (intern (format "yank-displaced-%s" funcname)))
         (docstring (format "(insert \"%s\") and (backward-char %d). This command can be prefixed, and will iterate N times." (car data) (or (cadr data) 1)))
         (char (car data))
